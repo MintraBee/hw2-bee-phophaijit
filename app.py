@@ -1,17 +1,16 @@
 import os
-import sys
 import argparse
 from datetime import datetime
 from dotenv import load_dotenv
-from google import genai
+import anthropic
 
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("ANTHROPIC_API_KEY")
 if not api_key:
-    raise ValueError("Missing GEMINI_API_KEY in .env file")
+    raise ValueError("Missing ANTHROPIC_API_KEY in .env file")
 
-client = genai.Client(api_key=api_key)
+client = anthropic.Anthropic(api_key=api_key)
 
 PROMPT = """
 You are a compliance operations assistant.
@@ -32,12 +31,13 @@ Rules:
 """
 
 def analyze_note(user_input: str) -> str:
-    full_prompt = f"{PROMPT}\n\nInput:\n{user_input}"
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=full_prompt
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1024,
+        system=PROMPT,
+        messages=[{"role": "user", "content": user_input}]
     )
-    return response.text
+    return response.content[0].text
 
 def main():
     parser = argparse.ArgumentParser(description="Compliance Risk Translator")
@@ -46,7 +46,6 @@ def main():
     parser.add_argument("--save", action="store_true", help="Save output to a file")
     args = parser.parse_args()
 
-    # Get input from flag, file, or fallback to sample
     if args.input:
         user_input = args.input
     elif args.file:
