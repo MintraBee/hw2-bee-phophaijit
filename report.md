@@ -15,11 +15,11 @@ This workflow provides a structured first-pass interpretation of these inputs, h
 ---
 
 ## Model Choice
-This prototype uses the Gemini 2.5 Flash model via the Google GenAI API. This model was chosen because it provides a strong balance between speed, cost, and performance for structured text generation tasks.
+This prototype uses Claude Haiku via the Anthropic API. This model was chosen because it provides a strong balance between speed, cost, and performance for structured text generation tasks.
 
 Given that this workflow focuses on transforming relatively short, unstructured notes into structured outputs, a lightweight and fast model is sufficient. More advanced models were not necessary for this use case, as the task does not require deep reasoning or complex multi-step problem solving.
 
-During development, an earlier model version (gemini-1.5-flash) was initially used, but compatibility issues with the API required transitioning to the updated Gemini 2.5 Flash model and SDK.
+During development, the prototype was initially built using the Google Gemini API, but persistent availability issues with the Gemini 2.5 Flash model required switching to Anthropic's Claude Haiku. This transition was straightforward and resulted in reliable, consistent outputs across all test cases.
 
 ---
 
