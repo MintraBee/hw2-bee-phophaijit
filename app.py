@@ -1,4 +1,7 @@
 import os
+import sys
+import argparse
+from datetime import datetime
 from dotenv import load_dotenv
 from google import genai
 
@@ -36,16 +39,42 @@ def analyze_note(user_input: str) -> str:
     )
     return response.text
 
-if __name__ == "__main__":
-    sample_input = """
-    We may have gaps in state-level compliance for remote employees in California and New York.
-    Need to confirm payroll tax handling before next payroll cycle.
-    """
+def main():
+    parser = argparse.ArgumentParser(description="Compliance Risk Translator")
+    parser.add_argument("--input", type=str, help="Compliance note to analyze")
+    parser.add_argument("--file", type=str, help="Path to a .txt file containing the note")
+    parser.add_argument("--save", action="store_true", help="Save output to a file")
+    args = parser.parse_args()
 
-    result = analyze_note(sample_input)
+    # Get input from flag, file, or fallback to sample
+    if args.input:
+        user_input = args.input
+    elif args.file:
+        with open(args.file, "r") as f:
+            user_input = f.read()
+    else:
+        user_input = """
+        We may have gaps in state-level compliance for remote employees in California and New York.
+        Need to confirm payroll tax handling before next payroll cycle.
+        """
+        print("No input provided. Running with sample input.\n")
+
+    result = analyze_note(user_input)
 
     print("\n=== INPUT ===\n")
-    print(sample_input.strip())
-
+    print(user_input.strip())
     print("\n=== OUTPUT ===\n")
     print(result)
+
+    if args.save:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"output_{timestamp}.txt"
+        with open(filename, "w") as f:
+            f.write("=== INPUT ===\n\n")
+            f.write(user_input.strip())
+            f.write("\n\n=== OUTPUT ===\n\n")
+            f.write(result)
+        print(f"\nOutput saved to {filename}")
+
+if __name__ == "__main__":
+    main()

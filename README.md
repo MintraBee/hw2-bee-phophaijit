@@ -19,3 +19,8 @@ A structured summary that includes:
 
 ## Why this task is valuable
 Compliance and risk-related notes are often messy, ambiguous, and time-sensitive. A first-pass structured draft can help teams identify risks faster, improve communication, and support follow-up while still keeping a human in the loop for review.
+
+---
+
+## Video walkthrough
+[PASTE YOUR YOUTUBE LINK HERE]
