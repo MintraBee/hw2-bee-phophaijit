@@ -23,4 +23,4 @@ Compliance and risk-related notes are often messy, ambiguous, and time-sensitive
 ---
 
 ## Video walkthrough
-[PASTE YOUR YOUTUBE LINK HERE]
+(https://youtu.be/YLGidtamSmQ)
